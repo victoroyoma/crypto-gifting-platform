@@ -142,23 +142,30 @@ const WalletProvider = ({ children }) => {
     setLoading(true);
     setError(null);
     try {
-      // Check if Phantom is installed
-      const isPhantomInstalled = window.solana && window.solana.isPhantom;
+      // Check for mobile Phantom wallet
+      const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+      const phantom = isMobile ? window.phantom?.solana : window.solana;
       
-      if (!isPhantomInstalled) {
-        throw new Error("Phantom wallet is not installed. Please install it from phantom.app");
+      if (!phantom) {
+        if (isMobile) {
+          window.location.href = 'https://phantom.app/ul/browse/';
+          return;
+        }
+        throw new Error("Phantom wallet not found. Please install it from phantom.app");
       }
 
-      // Initialize adapter with proper configuration
-      const phantom = new PhantomWalletAdapter();
-      await phantom.connect();
+      if (!phantom.isPhantom) {
+        throw new Error("Please use Phantom wallet");
+      }
 
-      if (!phantom.connected || !phantom.publicKey) {
+      await phantom.connect();
+      const publicKey = phantom.publicKey || phantom.account;
+      
+      if (!publicKey) {
         throw new Error("Failed to connect to Phantom wallet");
       }
 
-      const publicKey = phantom.publicKey;
-      setAddress(publicKey.toBase58());
+      setAddress(publicKey.toString());
       setIsConnected(true);
       setChain("solana");
       setProvider(phantom);
@@ -182,8 +189,15 @@ const WalletProvider = ({ children }) => {
     setLoading(true);
     setError(null);
     try {
-      if (typeof window.ethereum === "undefined") {
-        throw new Error("MetaMask is not installed");
+      // Check for mobile MetaMask
+      const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+      if (isMobile && !window.ethereum?.isMetaMask) {
+        window.location.href = 'https://metamask.app.link/dapp/https://crypto-gifting-platform.vercel.app/';
+        return;
+      }
+
+      if (!window.ethereum?.isMetaMask) {
+        throw new Error("MetaMask not found. Please install MetaMask");
       }
 
       // Request account access

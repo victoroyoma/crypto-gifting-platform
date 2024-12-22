@@ -105,19 +105,24 @@ const CharityMode = () => {
                 <h2 className="text-2xl font-bold mb-4">Wallet Connection</h2>
                 {!isConnected ? (
                     <div className="space-y-3">
+                        <p className="text-sm text-gray-400 mb-2">
+                            Please make sure you have opened this page in your wallet's browser:
+                        </p>
                         <button
                             onClick={connectMetaMask}
-                            className="w-full p-3 bg-blue-600 rounded-lg hover:bg-blue-700 disabled:opacity-50"
+                            className="w-full p-3 bg-blue-600 rounded-lg hover:bg-blue-700 disabled:opacity-50 flex items-center justify-center space-x-2"
                             disabled={loading}
                         >
-                            {loading ? "Connecting..." : "Connect MetaMask"}
+                            <img src="/metamask-logo.svg" alt="MetaMask" className="w-6 h-6" />
+                            <span>{loading ? "Connecting..." : "Connect MetaMask"}</span>
                         </button>
                         <button
                             onClick={connectPhantom}
-                            className="w-full p-3 bg-purple-600 rounded-lg hover:bg-purple-700 disabled:opacity-50"
+                            className="w-full p-3 bg-purple-600 rounded-lg hover:bg-purple-700 disabled:opacity-50 flex items-center justify-center space-x-2"
                             disabled={loading}
                         >
-                            {loading ? "Connecting..." : "Connect Phantom"}
+                            <img src="/phantom-logo.svg" alt="Phantom" className="w-6 h-6" />
+                            <span>{loading ? "Connecting..." : "Connect Phantom"}</span>
                         </button>
                         <button
               onClick={connectOKXWallet}
