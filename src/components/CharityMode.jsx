@@ -105,8 +105,8 @@ const CharityMode = () => {
                 <h2 className="text-2xl font-bold mb-4">Wallet Connection</h2>
                 {!isConnected ? (
                     <div className="space-y-3">
-                        <p className="text-sm text-gray-400 mb-2">
-                            Please make sure you have opened this page in your wallet's browser:
+                        <p className="text-sm text-gray-400 mb-2 font-semibold">
+                            Please make sure you have opened this page in your wallet's browser for easy connection to your wallet.
                         </p>
                         <button
                             onClick={connectMetaMask}
