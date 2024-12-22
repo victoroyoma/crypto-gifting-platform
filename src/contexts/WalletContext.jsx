@@ -142,19 +142,32 @@ const WalletProvider = ({ children }) => {
     setLoading(true);
     setError(null);
     try {
+      // Check if Phantom is installed
+      const isPhantomInstalled = window.solana && window.solana.isPhantom;
+      
+      if (!isPhantomInstalled) {
+        throw new Error("Phantom wallet is not installed. Please install it from phantom.app");
+      }
+
+      // Initialize adapter with proper configuration
       const phantom = new PhantomWalletAdapter();
       await phantom.connect();
-      const publicKey = phantom.publicKey;
-      
-      if (publicKey) {
-        setAddress(publicKey.toBase58());
-        setIsConnected(true);
-        setChain("solana");
-        // Store phantom instance for later use
-        setProvider(phantom);
-      } else {
-        throw new Error("Failed to get Phantom public key");
+
+      if (!phantom.connected || !phantom.publicKey) {
+        throw new Error("Failed to connect to Phantom wallet");
       }
+
+      const publicKey = phantom.publicKey;
+      setAddress(publicKey.toBase58());
+      setIsConnected(true);
+      setChain("solana");
+      setProvider(phantom);
+
+      // Add disconnect listener
+      phantom.on('disconnect', () => {
+        disconnectWallet();
+      });
+
     } catch (err) {
       console.error("Phantom connection error:", err);
       setError(err.message || "Failed to connect Phantom wallet");

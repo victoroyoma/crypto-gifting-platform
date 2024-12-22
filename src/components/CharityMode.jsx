@@ -99,9 +99,9 @@ const CharityMode = () => {
     };
 
     return (
-        <div className="min-h-screen flex flex-col md:flex-row bg-[#0a1128] text-white">
+        <div className="min-h-screen flex flex-col md:flex-row bg-[#0a1128] text-white max-w-[100vw] overflow-x-hidden">
             {/* Wallet Section */}
-            <div className="w-full md:w-1/3 bg-[#1a2747] p-6">
+            <div className="w-full md:w-1/3 bg-[#1a2747] p-4 md:p-6">
                 <h2 className="text-2xl font-bold mb-4">Wallet Connection</h2>
                 {!isConnected ? (
                     <div className="space-y-3">
@@ -165,7 +165,7 @@ const CharityMode = () => {
             </div>
 
             {/* Donation Section */}
-            <div className="w-full md:w-2/3 p-6">
+            <div className="w-full md:w-2/3 p-4 md:p-6 overflow-x-hidden">
                 <h2 className="text-2xl font-bold mb-6 text-center">Make a Donation</h2>
                 {isConnected ? (
                     <div className="space-y-4">
@@ -235,7 +235,7 @@ const CharityMode = () => {
                 <AnimationComponent isVisible={showAnimation} />
 
                 {/* History and Leaderboard Section */}
-                <div className="mt-8">
+                <div className="mt-8 max-w-full overflow-x-auto">
                     <DonationHistory />
                     <Leaderboard />
                 </div>

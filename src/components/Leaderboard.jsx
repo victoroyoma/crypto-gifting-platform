@@ -23,10 +23,10 @@ const Leaderboard = () => {
   }, [donationHistory]);
 
   return (
-    <div className="mt-6">
+    <div className="mt-6 -mx-4 md:mx-0">
       <h3 className="text-2xl font-bold mb-6 text-center">Top Donors</h3>
-      <div className="overflow-x-auto">
-        <table className="min-w-full table-auto border-collapse border border-gray-700">
+      <div className="overflow-x-auto scrollbar-thin scrollbar-thumb-gray-600 scrollbar-track-transparent">
+        <table className="min-w-full w-max md:w-full table-auto border-collapse border border-gray-700">
           <thead>
             <tr className="bg-navy-lighter text-white uppercase text-sm">
               <th className="p-4 border border-gray-700 text-left">Donor</th>
