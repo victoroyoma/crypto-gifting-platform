@@ -113,7 +113,6 @@ const CharityMode = () => {
                             className="w-full p-3 bg-blue-600 rounded-lg hover:bg-blue-700 disabled:opacity-50 flex items-center justify-center space-x-2"
                             disabled={loading}
                         >
-                            <img src="/metamask-logo.svg" alt="MetaMask" className="w-6 h-6" />
                             <span>{loading ? "Connecting..." : "Connect MetaMask"}</span>
                         </button>
                         <button
@@ -121,7 +120,6 @@ const CharityMode = () => {
                             className="w-full p-3 bg-purple-600 rounded-lg hover:bg-purple-700 disabled:opacity-50 flex items-center justify-center space-x-2"
                             disabled={loading}
                         >
-                            <img src="/phantom-logo.svg" alt="Phantom" className="w-6 h-6" />
                             <span>{loading ? "Connecting..." : "Connect Phantom"}</span>
                         </button>
                         <button
