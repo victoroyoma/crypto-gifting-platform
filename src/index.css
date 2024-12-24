@@ -3,7 +3,19 @@
 @import "tailwindcss/components";
 @import "tailwindcss/utilities";
 
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 :root {
+
+  --navy: #0f1c3f;
+  --navy-light: #1a2747;
+  --deep-blue: #0a1128;
+  --border-blue: #2a3c6e;
+  --text-gray: #aaaaaa;
+  --highlight-blue: #3d5499;
+  
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;

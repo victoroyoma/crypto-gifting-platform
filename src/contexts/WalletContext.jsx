@@ -1,5 +1,8 @@
-import React, { createContext, useState, useMemo } from "react";
+import React, { createContext, useState, useMemo, useEffect } from "react";
 import { ethers } from "ethers";
+import { createHelia } from 'helia'
+import { unixfs } from '@helia/unixfs'
+import { MemoryBlockstore } from 'blockstore-core'
 import { PhantomWalletAdapter } from "@solana/wallet-adapter-phantom";
 import { Connection, PublicKey, Transaction, SystemProgram, clusterApiUrl } from "@solana/web3.js";
 
@@ -57,6 +60,56 @@ const WalletProvider = ({ children }) => {
         { symbol: "UNI", name: "Uniswap", address: "0x1f9840a85d5aF5bf1d1762f925bdADdc4201F984" },
         { symbol: "LUNA", name: "Terra", address: "0x0000000000000000000000000000000000000000" }, // Replace with actual address
       ],
+  };
+
+  // Replace IPFS implementation with Helia
+  let helia = null;
+  let fs = null;
+
+  const initializeHelia = async () => {
+    if (!helia) {
+      try {
+        const blockstore = new MemoryBlockstore()
+        helia = await createHelia({
+          blockstore,
+          // Remove auth configuration as it's not needed for basic usage
+        })
+        fs = unixfs(helia)
+      } catch (error) {
+        console.error('Failed to initialize Helia:', error)
+        throw new Error('Failed to initialize IPFS client')
+      }
+    }
+  };
+
+  const storeDataOnIPFS = async (data) => {
+    try {
+      await initializeHelia();
+      const encoder = new TextEncoder()
+      const bytes = encoder.encode(JSON.stringify(data))
+      const cid = await fs.addBytes(bytes)
+      return cid.toString();
+    } catch (error) {
+      console.error('Helia storage error:', error);
+      throw new Error("Failed to store data: " + error.message);
+    }
+  };
+
+  const retrieveDataFromIPFS = async (cid) => {
+    try {
+      await initializeHelia();
+      const decoder = new TextDecoder()
+      let data = ''
+      
+      for await (const chunk of fs.cat(cid)) {
+        data += decoder.decode(chunk, { stream: true })
+      }
+      
+      return JSON.parse(data);
+    } catch (error) {
+      console.error('Helia retrieval error:', error);
+      throw new Error("Failed to retrieve data: " + error.message);
+    }
   };
 // Switch network
   const switchNetwork = async (targetChain) => {
@@ -136,6 +189,25 @@ const WalletProvider = ({ children }) => {
     } finally {
       setLoading(false);
     }
+  };
+
+  const sendToken = async (toAddress, amount, token) => {
+    if (!isConnected) throw new Error("Wallet not connected.");
+    const signer = provider.getSigner();
+    if (token.address === "native") {
+      const tx = await signer.sendTransaction({
+        to: toAddress,
+        value: ethers.utils.parseEther(amount),
+      });
+      return tx.hash;
+    }
+  };
+
+  const receiveTokens = async () => {
+    if (!isConnected) throw new Error("Wallet not connected.");
+    const signer = provider.getSigner();
+    const balance = await provider.getBalance(await signer.getAddress());
+    return ethers.utils.formatEther(balance);
   };
 // Connect Phantom wallet
   const connectPhantom = async () => {
@@ -341,6 +413,10 @@ const WalletProvider = ({ children }) => {
       loading,
       error,
       donationHistory,
+      sendToken,
+      receiveTokens,
+      storeDataOnIPFS,
+      retrieveDataFromIPFS,
     }),
     [address, chain, isConnected, loading, error, donationHistory]
   );

@@ -18,6 +18,7 @@ const CharityMode = () => {
         loading,
         error,
         disconnectWallet,
+        isMobile,
     } = useContext(WalletContext);
 
     const [selectedToken, setSelectedToken] = useState(null);
@@ -71,11 +72,18 @@ const CharityMode = () => {
         setAmount("");
     };
 
-    const handleDonate = async () => {
+    const checkConnection = () => {
         if (!isConnected) {
-            alert("Please connect your wallet first!");
-            return;
+            alert(isMobile 
+              ? "Please open this dApp in your wallet's browser to connect." 
+              : "Please connect your wallet to continue.");
+            return false;
         }
+        return true;
+    };
+
+    const handleDonate = async () => {
+        if (!checkConnection()) return;
         if (!selectedCharity || !selectedToken || !amount) {
             alert("Please select a charity, token, and amount.");
             return;
@@ -99,9 +107,9 @@ const CharityMode = () => {
     };
 
     return (
-        <div className="min-h-screen flex flex-col md:flex-row bg-[#0a1128] text-white max-w-[100vw] overflow-x-hidden">
+        <div className="min-h-screen flex flex-col md:flex-row gap-6 bg-[#0a1128] text-white max-w-[100vw] overflow-x-hidden p-6">
             {/* Wallet Section */}
-            <div className="w-full md:w-1/3 bg-[#1a2747] p-4 md:p-6">
+            <div className="w-full md:w-1/3 bg-navy-lighter rounded-2xl shadow-custom-lg p-6">
                 <h2 className="text-2xl font-bold mb-4">Wallet Connection</h2>
                 {!isConnected ? (
                     <div className="space-y-3">
@@ -142,7 +150,7 @@ const CharityMode = () => {
                         <select
                             value={chain || ""}
                             onChange={(e) => handleNetworkSwitch(e.target.value)}
-                            className="w-full p-3 bg-[#2a3c6e] rounded-lg border border-gray-600"
+                            className="w-full p-3 bg-navy-light rounded-xl border border-gray-600/30 focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all duration-300"
                         >
                             <option value="">Switch Network</option>
                             <option value="ethereum">Ethereum</option>
@@ -168,14 +176,19 @@ const CharityMode = () => {
             </div>
 
             {/* Donation Section */}
-            <div className="w-full md:w-2/3 p-4 md:p-6 overflow-x-hidden">
+            <div className="w-full md:w-2/3 bg-navy-lighter rounded-2xl shadow-custom-lg p-6">
                 <h2 className="text-2xl font-bold mb-6 text-center">Make a Donation</h2>
+                {!isConnected && isMobile && (
+                    <div className="px-4 py-2 bg-yellow-500/20 text-yellow-500 text-sm rounded-lg mb-4">
+                        Open this dApp in your wallet's browser for the best experience
+                    </div>
+                )}
                 {isConnected ? (
                     <div className="space-y-4">
                         <select
                             value={selectedCharity}
                             onChange={(e) => setSelectedCharity(e.target.value)}
-                            className="w-full p-3 bg-[#2a3c6e] rounded-lg border border-gray-600"
+                            className="w-full p-3 bg-navy-light rounded-xl border border-gray-600/30 focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all duration-300"
                             disabled={transactionInProgress}
                         >
                             <option value="">Select Charity</option>
@@ -191,7 +204,7 @@ const CharityMode = () => {
                             onChange={(e) => setSelectedToken(
                                 supportedTokens[chain]?.find(t => t.symbol === e.target.value)
                             )}
-                            className="w-full p-3 bg-[#2a3c6e] rounded-lg border border-gray-600"
+                            className="w-full p-3 bg-navy-light rounded-xl border border-gray-600/30 focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all duration-300"
                             disabled={transactionInProgress}
                         >
                             <option value="">Select Token</option>
@@ -207,7 +220,7 @@ const CharityMode = () => {
                             value={amount}
                             onChange={(e) => setAmount(e.target.value)}
                             placeholder="Enter Amount"
-                            className="w-full p-3 bg-[#2a3c6e] rounded-lg border border-gray-600"
+                            className="w-full p-3 bg-navy-light rounded-xl border border-gray-600/30 focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all duration-300"
                             disabled={transactionInProgress}
                         />
 
@@ -225,7 +238,7 @@ const CharityMode = () => {
 
                         <button
                             onClick={handleDonate}
-                            className="w-full p-4 bg-green-600 rounded-lg hover:bg-green-700 disabled:opacity-50"
+                            className="w-full p-4 bg-green-600 hover:bg-green-500 rounded-xl shadow-custom transition-all duration-300 font-medium disabled:opacity-50 disabled:hover:bg-green-600"
                             disabled={transactionInProgress || !selectedCharity || !selectedToken || !amount}
                         >
                             {transactionInProgress ? "Processing..." : "Donate"}

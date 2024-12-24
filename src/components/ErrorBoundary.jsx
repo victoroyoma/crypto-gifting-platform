@@ -1,14 +1,13 @@
-
 import React from 'react';
 
 class ErrorBoundary extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { hasError: false };
+    this.state = { hasError: false, error: null };
   }
 
   static getDerivedStateFromError(error) {
-    return { hasError: true };
+    return { hasError: true, error };
   }
 
   componentDidCatch(error, errorInfo) {
@@ -18,14 +17,17 @@ class ErrorBoundary extends React.Component {
   render() {
     if (this.state.hasError) {
       return (
-        <div className="p-4 bg-red-100 text-red-700 rounded-lg">
-          <h2>Something went wrong.</h2>
-          <button 
-            className="mt-2 px-4 py-2 bg-red-500 text-white rounded"
-            onClick={() => this.setState({ hasError: false })}
-          >
-            Try again
-          </button>
+        <div className="min-h-screen flex items-center justify-center bg-[#0a1128] text-white p-4">
+          <div className="text-center">
+            <h2 className="text-xl font-bold mb-4">Something went wrong</h2>
+            <p className="text-red-400 mb-4">{this.state.error?.message}</p>
+            <button
+              className="px-4 py-2 bg-blue-600 rounded-lg hover:bg-blue-700"
+              onClick={() => window.location.reload()}
+            >
+              Reload Page
+            </button>
+          </div>
         </div>
       );
     }
