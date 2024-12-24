@@ -107,9 +107,9 @@ const CharityMode = () => {
     };
 
     return (
-        <div className="min-h-screen flex flex-col md:flex-row gap-6 bg-[#0a1128] text-white max-w-[100vw] overflow-x-hidden p-6">
+        <div className="flex flex-col md:flex-row gap-6 bg-[#0a1128] text-white">
             {/* Wallet Section */}
-            <div className="w-full md:w-1/3 bg-navy-lighter rounded-2xl shadow-custom-lg p-6">
+            <div className="w-full md:w-1/3 bg-navy-lighter rounded-2xl shadow-custom-lg p-4 md:p-6">
                 <h2 className="text-2xl font-bold mb-4">Wallet Connection</h2>
                 {!isConnected ? (
                     <div className="space-y-3">
@@ -176,7 +176,7 @@ const CharityMode = () => {
             </div>
 
             {/* Donation Section */}
-            <div className="w-full md:w-2/3 bg-navy-lighter rounded-2xl shadow-custom-lg p-6">
+            <div className="w-full md:w-2/3 bg-navy-lighter rounded-2xl shadow-custom-lg p-4 md:p-6 overflow-hidden">
                 <h2 className="text-2xl font-bold mb-6 text-center">Make a Donation</h2>
                 {!isConnected && isMobile && (
                     <div className="px-4 py-2 bg-yellow-500/20 text-yellow-500 text-sm rounded-lg mb-4">
@@ -251,9 +251,11 @@ const CharityMode = () => {
                 <AnimationComponent isVisible={showAnimation} />
 
                 {/* History and Leaderboard Section */}
-                <div className="mt-8 max-w-full overflow-x-auto">
-                    <DonationHistory />
-                    <Leaderboard />
+                <div className="mt-8 w-full overflow-x-auto">
+                    <div className="min-w-[600px] md:min-w-0"> {/* Minimum width for mobile scroll */}
+                        <DonationHistory />
+                        <Leaderboard />
+                    </div>
                 </div>
             </div>
         </div>

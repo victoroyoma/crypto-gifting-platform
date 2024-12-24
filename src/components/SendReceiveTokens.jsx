@@ -63,9 +63,9 @@ const SendReceiveTokens = () => {
   };
 
   return (
-    <div className="min-h-screen flex flex-col lg:flex-row gap-6 bg-[#0a1128] text-white p-6">
+    <div className="flex flex-col lg:flex-row gap-6 bg-[#0a1128] text-white">
       {/* Left Section: Token Actions */}
-      <div className="w-full lg:w-1/3 bg-navy-lighter rounded-2xl shadow-custom-lg p-6">
+      <div className="w-full lg:w-1/3 bg-navy-lighter rounded-2xl shadow-custom-lg p-4 md:p-6">
         <h2 className="text-2xl font-bold mb-6">Send and Receive Tokens</h2>
         {!isConnected ? (
           <p className="text-center text-gray-400">Please connect your wallet to use this feature.</p>
@@ -146,8 +146,8 @@ const SendReceiveTokens = () => {
         </div>
       </div>
 
-      {/* Right Section: Placeholder for future features */}
-      <div className="w-full lg:w-2/3 bg-navy-lighter rounded-2xl shadow-custom-lg p-6">
+      {/* Right Section */}
+      <div className="w-full lg:w-2/3 bg-navy-lighter rounded-2xl shadow-custom-lg p-4 md:p-6">
         <h3 className="text-2xl font-bold">More Features Coming Soon!</h3>
         <p className="text-gray-400 mt-4 text-center">
           We're actively working on expanding the functionality of this dApp. Stay tuned for updates!
