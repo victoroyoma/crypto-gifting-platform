@@ -10,7 +10,7 @@ function App() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-deep-blue to-navy-light text-white">
+    <div className="min-h-screen bg-gradient-to-b from-deep-blue to-navy-light text-white overflow-x-hidden">
       <ErrorBoundary>
         <WalletProvider>
           <Router>
@@ -72,7 +72,7 @@ function App() {
               </div>
             </header>
 
-            <main className="max-w-7xl mx-auto px-4 md:px-6 py-6 flex-grow">
+            <main className="w-full max-w-7xl mx-auto px-2 sm:px-4 md:px-6 py-4 flex-grow overflow-hidden">
               <Routes>
                 <Route path="/charity" element={<CharityMode />} />
                 <Route path="/send-receive" element={<SendReceiveTokens />} />

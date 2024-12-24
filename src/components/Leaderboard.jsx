@@ -23,30 +23,32 @@ const Leaderboard = () => {
   }, [donationHistory]);
 
   return (
-    <div className="mt-6 -mx-4 md:mx-0">
+    <div className="mt-6 w-full">
       <h3 className="text-2xl font-bold mb-6 text-center">Top Donors</h3>
-      <div className="overflow-x-auto scrollbar-thin scrollbar-thumb-gray-600 scrollbar-track-transparent">
-        <table className="min-w-full w-max md:w-full table-auto border-collapse border border-gray-700">
-          <thead>
-            <tr className="bg-navy-lighter text-white uppercase text-sm">
-              <th className="p-4 border border-gray-700 text-left">Donor</th>
-              <th className="p-4 border border-gray-700 text-left">Total Donations</th>
-            </tr>
-          </thead>
-          <tbody>
-            {topDonors.map((donor, index) => (
-              <tr
-                key={index}
-                className={`hover:bg-navy-light transition ${
-                  index === 0 ? "bg-green-600/10" : "bg-[#1a2747]"
-                }`}
-              >
-                <td className="p-4 border border-gray-700 font-semibold">{donor.donor}</td>
-                <td className="p-4 border border-gray-700">{donor.total.toFixed(2)}</td>
+      <div className="overflow-x-auto -mx-4 md:mx-0">
+        <div className="inline-block min-w-full align-middle">
+          <table className="w-full table-auto border-collapse border border-gray-700">
+            <thead>
+              <tr className="bg-navy-lighter text-white uppercase text-sm">
+                <th className="p-4 border border-gray-700 text-left">Donor</th>
+                <th className="p-4 border border-gray-700 text-left">Total Donations</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {topDonors.map((donor, index) => (
+                <tr
+                  key={index}
+                  className={`hover:bg-navy-light transition ${
+                    index === 0 ? "bg-green-600/10" : "bg-[#1a2747]"
+                  }`}
+                >
+                  <td className="p-4 border border-gray-700 font-semibold">{donor.donor}</td>
+                  <td className="p-4 border border-gray-700">{donor.total.toFixed(2)}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
   );

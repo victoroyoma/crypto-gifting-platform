@@ -107,9 +107,9 @@ const CharityMode = () => {
     };
 
     return (
-        <div className="flex flex-col md:flex-row gap-6 bg-[#0a1128] text-white">
+        <div className="flex flex-col md:flex-row gap-4 bg-[#0a1128] text-white w-full max-w-full overflow-hidden">
             {/* Wallet Section */}
-            <div className="w-full md:w-1/3 bg-navy-lighter rounded-2xl shadow-custom-lg p-4 md:p-6">
+            <div className="w-full md:w-1/3 bg-navy-lighter rounded-2xl shadow-custom-lg p-4">
                 <h2 className="text-2xl font-bold mb-4">Wallet Connection</h2>
                 {!isConnected ? (
                     <div className="space-y-3">
@@ -176,7 +176,7 @@ const CharityMode = () => {
             </div>
 
             {/* Donation Section */}
-            <div className="w-full md:w-2/3 bg-navy-lighter rounded-2xl shadow-custom-lg p-4 md:p-6 overflow-hidden">
+            <div className="w-full md:w-2/3 bg-navy-lighter rounded-2xl shadow-custom-lg p-4">
                 <h2 className="text-2xl font-bold mb-6 text-center">Make a Donation</h2>
                 {!isConnected && isMobile && (
                     <div className="px-4 py-2 bg-yellow-500/20 text-yellow-500 text-sm rounded-lg mb-4">
@@ -252,7 +252,7 @@ const CharityMode = () => {
 
                 {/* History and Leaderboard Section */}
                 <div className="mt-8 w-full overflow-x-auto">
-                    <div className="min-w-[600px] md:min-w-0"> {/* Minimum width for mobile scroll */}
+                    <div className="md:w-full"> {/* Remove min-width constraint */}
                         <DonationHistory />
                         <Leaderboard />
                     </div>

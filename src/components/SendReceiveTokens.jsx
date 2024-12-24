@@ -63,7 +63,7 @@ const SendReceiveTokens = () => {
   };
 
   return (
-    <div className="flex flex-col lg:flex-row gap-6 bg-[#0a1128] text-white">
+    <div className="flex flex-col lg:flex-row gap-4 bg-[#0a1128] text-white w-full max-w-full overflow-hidden">
       {/* Left Section: Token Actions */}
       <div className="w-full lg:w-1/3 bg-navy-lighter rounded-2xl shadow-custom-lg p-4 md:p-6">
         <h2 className="text-2xl font-bold mb-6">Send and Receive Tokens</h2>
