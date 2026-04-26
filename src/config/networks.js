@@ -1,27 +1,82 @@
 export const NETWORK_CONFIGS = {
   ethereum: {
     chainId: "0x1",
+    chainIdDecimal: 1,
     name: "Ethereum Mainnet",
-    rpcUrls: ["https://mainnet.infura.io/v3/YOUR_INFURA_KEY"],
+    rpcUrls: ["https://cloudflare-eth.com"],
     nativeCurrency: { name: "Ethereum", symbol: "ETH", decimals: 18 },
-    blockExplorer: "https://etherscan.io"
+    blockExplorer: "https://etherscan.io",
+    color: "#627EEA",
+    icon: "⟠",
+  },
+  polygon: {
+    chainId: "0x89",
+    chainIdDecimal: 137,
+    name: "Polygon",
+    rpcUrls: ["https://polygon-rpc.com"],
+    nativeCurrency: { name: "MATIC", symbol: "MATIC", decimals: 18 },
+    blockExplorer: "https://polygonscan.com",
+    color: "#8247E5",
+    icon: "⬡",
+  },
+  base: {
+    chainId: "0x2105",
+    chainIdDecimal: 8453,
+    name: "Base",
+    rpcUrls: ["https://mainnet.base.org"],
+    nativeCurrency: { name: "Ethereum", symbol: "ETH", decimals: 18 },
+    blockExplorer: "https://basescan.org",
+    color: "#0052FF",
+    icon: "🔵",
+  },
+  arbitrum: {
+    chainId: "0xA4B1",
+    chainIdDecimal: 42161,
+    name: "Arbitrum One",
+    rpcUrls: ["https://arb1.arbitrum.io/rpc"],
+    nativeCurrency: { name: "Ethereum", symbol: "ETH", decimals: 18 },
+    blockExplorer: "https://arbiscan.io",
+    color: "#2D374B",
+    icon: "🔷",
+  },
+  optimism: {
+    chainId: "0xA",
+    chainIdDecimal: 10,
+    name: "Optimism",
+    rpcUrls: ["https://mainnet.optimism.io"],
+    nativeCurrency: { name: "Ethereum", symbol: "ETH", decimals: 18 },
+    blockExplorer: "https://optimistic.etherscan.io",
+    color: "#FF0420",
+    icon: "🔴",
   },
   bnb: {
     chainId: "0x38",
+    chainIdDecimal: 56,
     name: "BNB Smart Chain",
     rpcUrls: ["https://bsc-dataseed.binance.org"],
     nativeCurrency: { name: "BNB", symbol: "BNB", decimals: 18 },
-    blockExplorer: "https://bscscan.com"
+    blockExplorer: "https://bscscan.com",
+    color: "#F3BA2F",
+    icon: "🟡",
   },
   solana: {
+    chainIdDecimal: null,
     endpoint: "https://api.mainnet-beta.solana.com",
-    blockExplorer: "https://explorer.solana.com"
+    blockExplorer: "https://explorer.solana.com",
+    color: "#9945FF",
+    icon: "◎",
   },
   okx: {
     chainId: "0x42",
-    name: "OKX Chain",
+    chainIdDecimal: 66,
+    name: "OKT Chain",
     rpcUrls: ["https://exchainrpc.okex.org"],
     nativeCurrency: { name: "OKT", symbol: "OKT", decimals: 18 },
-    blockExplorer: "https://www.oklink.com/okc"
-  }
+    blockExplorer: "https://www.oklink.com/okc",
+    color: "#000000",
+    icon: "⬛",
+  },
 };
+
+export const EVM_CHAINS = ["ethereum", "polygon", "base", "arbitrum", "optimism", "bnb", "okx"];
+export const SOLANA_CHAINS = ["solana"];

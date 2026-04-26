@@ -1,54 +1,66 @@
 import React, { useContext, useMemo } from "react";
 import { WalletContext } from "../contexts/WalletContext";
 
-const Leaderboard = () => {
+const MEDALS = ["🥇", "🥈", "🥉"];
+
+const Leaderboard = ({ ngoId }) => {
   const { donationHistory } = useContext(WalletContext);
 
   const topDonors = useMemo(() => {
-    const donorTotals = donationHistory.reduce((totals, donation) => {
-      const donor = donation.txHash.startsWith("demo") ? "Demo Donor" : donation.charity;
-      const amount = parseFloat(donation.amount);
-      if (totals[donor]) {
-        totals[donor] += amount;
-      } else {
-        totals[donor] = amount;
-      }
+    const source = ngoId
+      ? (donationHistory || []).filter((d) => d.ngoId === ngoId)
+      : donationHistory || [];
+
+    const donorTotals = source.reduce((totals, d) => {
+      // Key: anonymous donors share one "Anonymous" bucket; public donors keyed by name or address
+      const key = d.isAnonymous
+        ? "__anonymous__"
+        : d.donorName || d.txHash?.slice(0, 10) || "Unknown";
+      const amount = parseFloat(d.amount) || 0;
+      totals[key] = (totals[key] || 0) + amount;
       return totals;
     }, {});
 
     return Object.entries(donorTotals)
-      .map(([donor, total]) => ({ donor, total }))
+      .map(([key, total]) => ({
+        key,
+        label: key === "__anonymous__" ? "🕵️ Anonymous Donor" : key,
+        isAnonymous: key === "__anonymous__",
+        total,
+      }))
       .sort((a, b) => b.total - a.total)
-      .slice(0, 5);
-  }, [donationHistory]);
+      .slice(0, 10);
+  }, [donationHistory, ngoId]);
+
+  if (!topDonors.length) return null;
 
   return (
     <div className="mt-6 w-full">
-      <h3 className="text-2xl font-bold mb-6 text-center">Top Donors</h3>
-      <div className="overflow-x-auto -mx-4 md:mx-0">
-        <div className="inline-block min-w-full align-middle">
-          <table className="w-full table-auto border-collapse border border-gray-700">
-            <thead>
-              <tr className="bg-navy-lighter text-white uppercase text-sm">
-                <th className="p-4 border border-gray-700 text-left">Donor</th>
-                <th className="p-4 border border-gray-700 text-left">Total Donations</th>
-              </tr>
-            </thead>
-            <tbody>
-              {topDonors.map((donor, index) => (
-                <tr
-                  key={index}
-                  className={`hover:bg-navy-light transition ${
-                    index === 0 ? "bg-green-600/10" : "bg-[#1a2747]"
+      <h3 className="text-xl font-bold mb-1">🏆 Donor Wall</h3>
+      <p className="text-xs text-gray-400 mb-4">Cumulative donations (all tokens, combined)</p>
+      <div className="space-y-2">
+        {topDonors.map((entry, index) => (
+          <div
+            key={entry.key}
+            className={`flex items-center justify-between p-3 rounded-xl border ${index === 0
+                ? "bg-yellow-500/10 border-yellow-500/30"
+                : "bg-[#1a2747] border-gray-700/40"
+              }`}
+          >
+            <div className="flex items-center gap-3">
+              <span className="text-xl">{MEDALS[index] || `#${index + 1}`}</span>
+              <span
+                className={`text-sm truncate max-w-[200px] ${entry.isAnonymous ? "text-gray-400 italic" : "font-mono text-gray-300"
                   }`}
-                >
-                  <td className="p-4 border border-gray-700 font-semibold">{donor.donor}</td>
-                  <td className="p-4 border border-gray-700">{donor.total.toFixed(2)}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
+              >
+                {entry.label}
+              </span>
+            </div>
+            <span className="font-bold text-green-400 shrink-0">
+              {entry.total.toFixed(4)}
+            </span>
+          </div>
+        ))}
       </div>
     </div>
   );
